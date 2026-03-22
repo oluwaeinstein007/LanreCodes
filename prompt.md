@@ -1,16 +1,19 @@
-Build a complete, production-ready personal portfolio website in Next.js (App Router) with the following features, design system, and pages. The website should feel alive, immersive, and distinctly premium — not a generic template.
+You are an expert Senior Full-Stack Engineer and Creative Developer
+specializing in Next.js, Three.js, and Framer Motion.
+
+Build a high-performance, visually stunning, and interactive personal
+portfolio website that feels genuinely premium — not a template.
 
 ---
 
 ## TECH STACK
 
-- Next.js 14+ (App Router)
-- TypeScript
-- Tailwind CSS (with CSS variables for theming)
-- Framer Motion (for all animations and transitions)
-- Three.js or React Three Fiber (for 3D elements)
-- next-themes (for dark/light mode)
-- Zustand or React Context (for accent color state)
+- Next.js 14+ (App Router, TypeScript)
+- Tailwind CSS with CSS variables for all design tokens
+- React Three Fiber + Three.js (3D elements)
+- Framer Motion (all animations and page transitions)
+- Lenis (high-end inertial smooth scrolling)
+- next-themes (dark/light mode)
 - Lucide React (icons)
 - Google Fonts via next/font
 
@@ -18,172 +21,326 @@ Build a complete, production-ready personal portfolio website in Next.js (App Ro
 
 ## DESIGN IDENTITY
 
-**Aesthetic Direction:** Refined dark-by-default editorial — think a premium digital magazine meets developer portfolio. Clean geometry, deliberate whitespace, and controlled maximalism in the hero.
+Aesthetic: Refined dark-by-default editorial. Premium digital magazine
+meets developer portfolio. Controlled maximalism in the hero, clean
+geometry everywhere else.
 
-**Typography:**
+Typography:
 
-- Display/Heading font: "Syne" (bold, geometric, modern)
-- Body font: "DM Sans" (humanist, readable)
-- Monospace/Code labels: "JetBrains Mono"
+- Display/Heading: "Syne" (bold, geometric)
+- Body: "DM Sans" (humanist, readable)
+- Monospace labels: "JetBrains Mono"
 - Load all via next/font/google
 
-**Theming:**
+Color Tokens (CSS variables in globals.css):
+:root {
+--bg: #f5f4f0;
+--surface: #ffffff;
+--border: rgba(0,0,0,0.08);
+--text-primary: #0a0a0f;
+--text-secondary: #6b7280;
+--accent: #3b82f6;
+}
 
-- Dark mode default: Background #0a0a0f, surface #12121a, borders with low opacity white
-- Light mode: Background #f5f4f0 (warm off-white), surface #ffffff, borders with low opacity black
-- CSS variables for all color tokens: --bg, --surface, --border, --text-primary, --text-secondary, --accent
-- Smooth theme transitions on all elements (transition: background 0.3s, color 0.3s)
+[data-theme="dark"] {
+--bg: #0a0a0f;
+--surface: #12121a;
+--border: rgba(255,255,255,0.08);
+--text-primary: #f5f4f0;
+--text-secondary: #9ca3af;
+--accent: #3b82f6;
+}
 
-**Accent Color System:**
+All theme transitions:
 
-- User can choose their preferred accent color from a palette of 6–8 options
-- Options: Electric Blue (#3B82F6), Emerald (#10B981), Amber (#F59E0B), Rose (#F43F5E), Violet (#8B5CF6), Cyan (#06B6D4), Coral (#FF6B6B), Lime (#84CC16)
-- The selected accent color cascades across: links, hover states, active nav items, skill badges, CTA buttons, and 3D element emissive color
-- Persist the selection to localStorage
-- Display as a row of circular color swatches in the settings panel
+- { transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+
+---
+
+## GLASSMORPHISM SYSTEM
+
+Apply this pattern consistently to: Navbar, Cards, Settings Panel,
+Modal overlays, Skill badges.
+
+Tailwind class pattern:
+bg-white/10 dark:bg-black/10 backdrop-blur-md border border-white/20
+
+Navbar specifically:
+fixed top-0, full width, backdrop-blur-md, semi-transparent bg,
+shrinks in padding after 80px scroll (useScroll + Framer Motion)
+
+---
+
+## LENIS SMOOTH SCROLLING
+
+Install: npm install @studio-freight/lenis
+
+Create lib/useLenis.ts:
+
+import Lenis from '@studio-freight/lenis'
+import { useEffect } from 'react'
+import { useReducedMotion } from 'framer-motion'
+
+export function useLenis() {
+const shouldReduceMotion = useReducedMotion()
+useEffect(() => {
+if (shouldReduceMotion) return
+const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 \* t)) })
+function raf(time: number) {
+lenis.raf(time)
+requestAnimationFrame(raf)
+}
+requestAnimationFrame(raf)
+return () => lenis.destroy()
+}, [shouldReduceMotion])
+}
+
+Initialize in app/layout.tsx via a client component wrapper.
+Pause Lenis when a modal or overlay is open.
+
+---
+
+## ACCENT COLOR SYSTEM
+
+8 accent options:
+Electric Blue #3B82F6
+Emerald #10B981
+Amber #F59E0B
+Rose #F43F5E
+Violet #8B5CF6
+Cyan #06B6D4
+Coral #FF6B6B
+Lime #84CC16
+
+Implementation (no Context provider needed):
+
+// On selection:
+document.documentElement.style.setProperty('--accent', selectedColor)
+localStorage.setItem('accent-color', selectedColor)
+
+// On mount (in layout.tsx client wrapper):
+const saved = localStorage.getItem('accent-color')
+if (saved) document.documentElement.style.setProperty('--accent', saved)
+
+In Tailwind, reference as: text-[var(--accent)], bg-[var(--accent)],
+border-[var(--accent)]
+
+The accent color must cascade to:
+
+- All CTA buttons (bg fill or border)
+- Nav active indicator underline
+- Skill badge borders
+- Link hover states
+- Three.js mesh emissive color (sync via useThree + useEffect watching accent)
+- Focus rings on form inputs
+- Timeline dot indicators
+- Stat counter numbers
 
 ---
 
 ## SETTINGS PANEL
 
-A small floating settings icon (⚙️ or sliders icon) fixed to the bottom-right corner. On click, a smooth slide-up panel appears with:
+Floating ⚙️ icon fixed bottom-right. On click: smooth slide-up panel.
 
-- Dark / Light theme toggle (with animated sun/moon icon swap)
-- Accent color selector (row of colored circles, currently active one has a ring)
-- Font size nudge: Small / Medium / Large (affects base rem)
-- Reduce motion toggle (disables Framer Motion animations system-wide)
-- Close button
+Contains:
+
+1. Dark / Light toggle (animated sun↔moon icon swap, Framer Motion)
+2. Accent color picker: row of 8 colored circles, active one has
+   a white/dark ring + scale-up animation
+3. Font size: Small (14px base) / Medium (16px) / Large (18px)
+   → updates: document.documentElement.style.fontSize = size
+4. Reduce Motion toggle → sets a global state that disables all
+   Framer Motion animations (pass to AnimatePresence and variants)
+
+Panel itself uses the glassmorphism pattern.
 
 ---
 
 ## NAVIGATION
 
-- Fixed top navbar, blurred glass background (backdrop-blur-md, semi-transparent bg)
-- Logo: initials or name in the display font, left-aligned
-- Nav links: Home, About, Work, Skills, Blog (or Writing), Contact
-- Active link underline using a thin accent-colored line that slides between items (layout animation via Framer Motion)
-- Mobile: hamburger menu → full-screen overlay nav with staggered link entrance
-- Subtle scroll-aware behavior: navbar shrinks slightly in height after scrolling 80px
+- Fixed top, glassmorphism background
+- Logo: name/initials in Syne font, left-aligned
+- Links: Home · About · Work · Skills · Contact
+- Active link: thin accent-colored underline that slides between
+  items using Framer Motion layoutId="nav-indicator"
+- Mobile: hamburger → full-screen overlay with staggered link entrance
+- Scroll-aware: padding shrinks from py-5 to py-3 after 80px
 
 ---
 
-## PAGE: HOME (HERO)
+## HERO SECTION
 
-**Hero Section:**
+Full-viewport height. Two-column layout.
 
-- Full-viewport height
-- Large typographic headline: "I build things for the web." or equivalent — split into words, each word animates in with a staggered upward reveal on load
-- Subheadline with typewriter effect cycling between roles: "Software Engineer", "CTO", "AI Builder", "Tech Leader"
-- Two CTAs: "View My Work" (accent-filled button) and "Download CV" (ghost button)
-- Floating availability badge: pulsing green dot + "Available for opportunities"
+Left column:
 
-**3D Hero Element:**
+- Headline (split into words, staggered upward reveal on load):
+  "I build things for the web."
+- Subheadline with typewriter effect cycling: "Software Engineer" /
+  "CTO" / "AI Builder" / "Tech Leader"
+- Two CTAs: filled accent button "View My Work" + ghost "Download CV"
+- Pulsing green dot + "Available for opportunities" badge
 
-- A slowly rotating abstract 3D geometric object (e.g., an icosahedron or torus knot) rendered with React Three Fiber
-- Positioned to the right side of the hero, partially behind the text layer
-- Responsive: hidden on mobile, scaled on tablet
-- Material: Wireframe or low-poly with emissive color matching the accent color
-- Reacts to mouse movement (lerped rotation following cursor — parallax effect)
-- In light mode: slightly more opaque; in dark mode: glowing with bloom/emissive
+Right column — 3D Hero Canvas:
+Use React Three Fiber. Render a slowly rotating torus knot or
+icosahedron (NOT low-poly terrain — avoid it, it reads as dated).
 
-**Scroll Indicator:**
+Canvas setup:
+<Canvas
+camera={{ position: [0, 0, 5], fov: 45 }}
+gl={{ antialias: true, alpha: true }} >
+<AdaptiveEvents />
+<Preload all />
+<Suspense fallback={<Html>Loading...</Html>}>
+<HeroShape />
+<ambientLight intensity={0.4} />
+<pointLight position={[10, 10, 10]} intensity={1} />
+<Environment preset="city" />
+</Suspense>
+</Canvas>
 
-- Animated downward chevron or scroll line at bottom of hero
+HeroShape behavior: - Wireframe or MeshStandardMaterial with emissiveIntensity 0.4 - emissive color = current --accent value (read via
+getComputedStyle and synced on accent change) - Auto-rotates slowly on Y and X axes (useFrame) - Mouse parallax: lerped rotation following cursor position
+(useMousePosition hook → lerp toward target each frame) - frameloop="demand" on Canvas, switched to "always" on hover - Hidden on mobile (CSS), scaled down on tablet
 
----
-
-## PAGE: ABOUT
-
-- Two-column layout: left = photo/avatar section, right = text
-- Photo: Displayed in a stylized frame — either a clipped polygon shape or with a subtle accent-border + grain texture overlay
-- Bio paragraphs with staggered fade-in on scroll (Framer Motion `whileInView`)
-- "Currently at" company with logo + role title
-- Quick stats row: Years of Experience | Projects Shipped | Team Size | Open Source Repos — animated number count-up when in viewport
-- Timeline section below: Career history as a vertical timeline with alternating left/right layout on desktop, single column on mobile. Each entry: role, company, dates, 2–3 bullet points. Entrance animation: items slide in from alternating sides.
-
----
-
-## PAGE: WORK / PROJECTS
-
-- Section heading with a subtle animated underline drawn via SVG stroke animation
-- Project grid: 2 columns on desktop, 1 on mobile
-- Each project card:
-  - Full-bleed cover image or gradient placeholder
-  - Project title, short description, tech stack tags (small pills in accent color)
-  - Hover: card lifts with box-shadow, overlay appears with "View Project →" CTA
-  - Framer Motion: scale and shadow on hover, card entrance with staggered delay
-- "Featured Project" variant: full-width card for the most important project, with a larger image and more prominent layout
-- Filter tabs at the top: All | Web Apps | Mobile | AI / ML | Open Source
+Global particle background (hero page only): - Points geometry, ~800 particles, drifting slowly - Opacity: 0.08 in light mode, 0.18 in dark mode - Paused when reduce-motion is enabled
 
 ---
 
-## PAGE: SKILLS
+## ABOUT SECTION
 
-**3D Skills Globe or Floating Tags:**
-Option A: A sphere rendered in Three.js/R3F with skill names distributed across its surface as floating text sprites. The sphere slowly auto-rotates; hover pauses rotation and highlights hovered skill.
-Option B (simpler): An animated tag cloud using Framer Motion with skills floating and bobbing at different speeds, subtle depth created via opacity and font-size variation.
+Two-column: left = photo, right = text.
+
+Photo:
+
+- Displayed in a clipped polygon frame OR accent-colored border
+- Subtle grain texture overlay (CSS noise filter or SVG feTurbulence)
+
+Right:
+
+- Bio paragraphs, staggered fade-in on scroll (whileInView, once: true)
+- "Currently at" badge with company + role
+
+Stats row (animated count-up on viewport entry):
+Years of Experience | Projects Shipped | Team Size | Repos
+
+Timeline:
+
+- Vertical timeline, alternating left/right on desktop
+- Each entry: role, company, dates, 2–3 bullets
+- Items slide in from alternating sides via Framer Motion
+
+---
+
+## PROJECTS SECTION — BENTO GRID
+
+Use a bento-style grid (NOT uniform card grid):
+
+- 2–3 column CSS grid with varied row spans
+- Featured project: spans 2 columns, taller row
+- Secondary projects: single cells
+
+Each card:
+
+- Full-bleed cover image or gradient placeholder
+- Title, short description, tech stack pills (accent-colored border)
+- Hover: 3D tilt effect (react-tilt or manual transform via
+  onMouseMove → rotateX/rotateY via Framer Motion style prop)
+- Hover overlay: semi-transparent dark layer + "View Project →" CTA
+- Card entrance: staggered fade+translateY with Framer Motion
+
+Filter tabs: All · Web · Mobile · AI/ML · Open Source
+Active tab: accent background fill, animated with layoutId
+
+---
+
+## SKILLS SECTION
+
+3D Floating Tag Cloud:
+Option A (preferred): React Three Fiber sphere with skill name sprites
+distributed across surface via fibonacci sphere algorithm. Slowly
+auto-rotates. Hover pauses and highlights skill.
+
+Option B (fallback): Framer Motion floating tags with varied
+opacity/scale to simulate depth.
 
 Below the 3D element:
 
-- Categorized skill sections: Languages, Frameworks, Cloud & DevOps, AI/ML Tools, Design Tools
-- Each skill shown as a horizontal bar with fill animation on scroll, or as icon+label pill cards
-- Proficiency levels: Expert / Proficient / Familiar
+- Skill categories: Languages · Frameworks · Cloud & DevOps · AI Tools
+- Each skill: horizontal fill bar animated on scroll entry, OR
+  icon+label pill cards with accent border
+- Proficiency label: Expert / Proficient / Familiar
 
 ---
 
-## PAGE: CONTACT
+## CONTACT SECTION
 
-- Clean, minimal layout
-- Headline: "Let's Build Something Together"
-- Contact form with fields: Name, Email, Subject, Message
-  - Styled inputs with floating labels (CSS-only)
-  - Accent-colored focus rings
-  - Submit button with loading spinner state and success/error feedback
-- Social links row: GitHub, LinkedIn, Twitter/X, Email — large icon buttons with hover lift effect
-- A subtle 3D element: a small animated envelope or abstract shape that rotates in place
+Layout: Clean, minimal, centered.
 
----
+Headline: "Let's Build Something Together"
 
-## GLOBAL 3D BACKGROUND (Optional but excellent)
+Form fields: Name, Email, Subject, Message
 
-- On the home page only: a subtle full-viewport canvas behind the main content
-- Renders slowly drifting particles (points geometry in Three.js) or low-poly floating shapes
-- Very low opacity in light mode (5–10%), more visible in dark mode (15–20%)
-- Pause when reduce-motion is enabled
+- Floating label inputs (CSS-only, label moves up on focus/fill)
+- Accent-colored focus rings: ring-2 ring-[var(--accent)]
+- Submit button: accent fill, loading spinner state,
+  success ("Message sent ✓") and error states
 
----
+Social links: GitHub · LinkedIn · Twitter/X · Email
 
-## ANIMATIONS & INTERACTIONS
+- Large icon buttons, hover: accent color + translateY(-2px)
 
-- Page transitions: Framer Motion `AnimatePresence` with a diagonal wipe or fade+slide between routes
-- Section entrance: every section uses `whileInView` with `once: true`, `viewport: { amount: 0.2 }`
-- Staggered children: use `variants` with `staggerChildren` for lists, grids, and nav items
-- Cursor: custom cursor dot that follows the mouse (small circle, scales up over interactive elements)
-- Smooth scroll: native CSS `scroll-behavior: smooth`
-- Hover states: all interactive elements have a deliberate, distinctive hover animation (never just opacity)
+Small 3D element: rotating abstract shape or envelope,
+accent emissive, same pattern as hero shape.
 
 ---
 
-## PERFORMANCE & BEST PRACTICES
+## PAGE TRANSITIONS
 
-- All images use next/image with proper sizing
-- Three.js canvas uses `frameloop="demand"` to only render when needed
-- Lazy-load heavy sections with `React.lazy` + `Suspense`
-- 3D elements wrapped in `<Suspense fallback={...}>` with a skeleton loader
-- Dark/light mode uses `next-themes` with `suppressHydrationWarning` on `<html>`
-- Accent color stored in localStorage and rehydrated client-side to avoid flash
-- Responsive breakpoints: mobile-first, with explicit sm/md/lg/xl Tailwind variants
-- Use `will-change: transform` on animated elements, remove after animation completes
-- Semantic HTML throughout: `<main>`, `<section>`, `<article>`, `<nav>`, `<footer>`
-- ARIA labels on icon buttons and interactive 3D canvases
+Use Framer Motion AnimatePresence in app/layout.tsx.
+Transition style: diagonal wipe OR fade + slight Y translate.
+
+variants={{
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
+    exit:    { opacity: 0, y: -10, transition: { duration: 0.25 } }
+  }}
+
+---
+
+## CUSTOM CURSOR
+
+Render a small dot (8px) and a larger ring (32px) that follows the mouse
+with different lerp speeds (dot: instant, ring: laggy for trail effect).
+
+On hover over interactive elements: ring scales to 48px,
+fills with accent color at 20% opacity.
+
+Hide on mobile/touch devices.
+Use a global useMousePosition hook. Render in layout.tsx outside
+the main content.
+
+---
+
+## PERFORMANCE RULES
+
+- All images: next/image with correct width/height and priority on hero
+- Three.js canvas: frameloop="demand" default, "always" on interaction
+- Wrap all R3F scenes in <Suspense fallback={...}>
+- Lazy load non-hero 3D sections with dynamic(() => import(...), { ssr: false })
+- will-change: transform on animated elements, removed after animation
+- Lenis paused during page transitions
+- reduce-motion toggle disables ALL Framer Motion variants globally
+- AdaptiveEvents + Preload on every Canvas
 
 ---
 
 ## FILE STRUCTURE
 
 app/
-layout.tsx → Root layout: ThemeProvider, fonts, CustomCursor, Navbar, SettingsPanel
-page.tsx → Home: Hero + brief previews of Work and About
+layout.tsx → Root: ThemeProvider, Lenis init, fonts,
+CustomCursor, Navbar, SettingsPanel
+page.tsx → Home: Hero + section previews
 about/page.tsx
 work/page.tsx
 skills/page.tsx
@@ -196,20 +353,21 @@ Footer.tsx
 SettingsPanel.tsx
 CustomCursor.tsx
 PageTransition.tsx
+LenisProvider.tsx
 home/
 HeroSection.tsx
-HeroCanvas.tsx → R3F 3D geometric object
+HeroCanvas.tsx → R3F torus knot / icosahedron
 ParticleBackground.tsx
 about/
 AboutBio.tsx
 Timeline.tsx
 StatCounter.tsx
 work/
-ProjectGrid.tsx
+BentoGrid.tsx
 ProjectCard.tsx
 FilterTabs.tsx
 skills/
-SkillsGlobe.tsx → R3F skills sphere
+SkillsCloud.tsx → R3F sphere or Framer Motion tag cloud
 SkillCategory.tsx
 contact/
 ContactForm.tsx
@@ -222,57 +380,64 @@ AccentColorPicker.tsx
 ThemeToggle.tsx
 
 lib/
-useAccentColor.ts → Zustand store or context for accent color
-useMousePosition.ts → Hook for cursor/parallax tracking
+useLenis.ts
+useMousePosition.ts
+useAccentColor.ts
+useReducedMotion.ts
 data/
 projects.ts
 skills.ts
 timeline.ts
 
 styles/
-globals.css → CSS variables, theme tokens, custom cursor, smooth scroll
+globals.css → CSS variables, theme tokens, glassmorphism
+utilities, cursor styles, noise texture
 
 ---
 
-## DATA SHAPE EXAMPLES
+## DATA INTERFACES
 
 // projects.ts
-export const projects = [
-{
-id: "1",
-title: "Project Name",
-description: "Short description of what this does and the impact it had.",
-tags: ["Next.js", "TypeScript", "AWS"],
-category: "web",
-image: "/projects/project-1.jpg",
-liveUrl: "https://...",
-githubUrl: "https://...",
-featured: true,
+interface Project {
+id: string
+title: string
+description: string
+tags: string[]
+category: 'web' | 'mobile' | 'ai' | 'opensource'
+image: string
+liveUrl?: string
+githubUrl?: string
+featured: boolean
+span?: 'single' | 'wide' // for bento grid
 }
-]
 
 // timeline.ts
-export const timeline = [
-{
-role: "CTO",
-company: "Collo Africa",
-period: "2023 – Present",
-bullets: [
-"Led engineering team of 7 across backend, frontend, and mobile",
-"Architected AWS infrastructure scaling from 2K to 20K+ users",
-]
+interface TimelineEntry {
+role: string
+company: string
+period: string
+bullets: string[]
+accent?: boolean // highlights the most recent entry
 }
-]
+
+// skills.ts
+interface Skill {
+name: string
+category: 'languages' | 'frameworks' | 'cloud' | 'ai' | 'design'
+level: 'expert' | 'proficient' | 'familiar'
+icon?: string
+}
 
 ---
 
 ## OUTPUT INSTRUCTIONS
 
-- Generate all files listed in the file structure above
-- Every component should be fully functional, not a placeholder
-- Use realistic sample content (not Lorem Ipsum)
-- All animations should be smooth, intentional, and performant
-- Dark mode should be the default, with excellent contrast ratios in both modes
-- The settings panel should be functional end-to-end (theme, accent, font size all working)
-- The 3D elements must actually render and animate — no static screenshots or stubs
-- All code should be TypeScript-strict with proper types and interfaces
+- Generate ALL files in the structure above — no placeholders
+- Use realistic sample content, not Lorem Ipsum
+- Dark mode is the default; both modes must have excellent contrast
+- Settings panel must be fully functional end-to-end
+- All 3D elements must actually render and animate — no stubs
+- Lenis, glassmorphism, bento grid, and custom cursor are non-negotiable
+- TypeScript strict mode throughout, all components fully typed
+- Every interactive element has a deliberate, designed hover state
+- Mobile-first responsive, explicit sm/md/lg/xl breakpoints throughout
