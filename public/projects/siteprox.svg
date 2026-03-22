@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#050f0a"/>
+      <stop offset="50%" style="stop-color:#0a1a14"/>
+      <stop offset="100%" style="stop-color:#05100f"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#14b8a6"/>
+      <stop offset="100%" style="stop-color:#22c55e"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="600" fill="url(#bg)"/>
+
+  <!-- Map grid / coordinate system -->
+  <g opacity="0.07" stroke="#14b8a6" stroke-width="1">
+    <!-- Horizontal lines -->
+    <line x1="0" y1="100" x2="1200" y2="100"/>
+    <line x1="0" y1="200" x2="1200" y2="200"/>
+    <line x1="0" y1="300" x2="1200" y2="300"/>
+    <line x1="0" y1="400" x2="1200" y2="400"/>
+    <line x1="0" y1="500" x2="1200" y2="500"/>
+    <!-- Vertical lines -->
+    <line x1="100" y1="0" x2="100" y2="600"/>
+    <line x1="200" y1="0" x2="200" y2="600"/>
+    <line x1="300" y1="0" x2="300" y2="600"/>
+    <line x1="400" y1="0" x2="400" y2="600"/>
+    <line x1="500" y1="0" x2="500" y2="600"/>
+    <line x1="600" y1="0" x2="600" y2="600"/>
+    <line x1="700" y1="0" x2="700" y2="600"/>
+    <line x1="800" y1="0" x2="800" y2="600"/>
+    <line x1="900" y1="0" x2="900" y2="600"/>
+    <line x1="1000" y1="0" x2="1000" y2="600"/>
+    <line x1="1100" y1="0" x2="1100" y2="600"/>
+  </g>
+
+  <!-- Location nodes -->
+  <g filter="url(#glow)">
+    <!-- Node A -->
+    <circle cx="280" cy="180" r="10" fill="#14b8a6" opacity="0.8"/>
+    <circle cx="280" cy="180" r="20" fill="none" stroke="#14b8a6" stroke-width="1.5" opacity="0.3"/>
+    <!-- Node B -->
+    <circle cx="750" cy="140" r="10" fill="#22c55e" opacity="0.8"/>
+    <circle cx="750" cy="140" r="20" fill="none" stroke="#22c55e" stroke-width="1.5" opacity="0.3"/>
+    <!-- Node C -->
+    <circle cx="420" cy="380" r="10" fill="#14b8a6" opacity="0.8"/>
+    <circle cx="420" cy="380" r="20" fill="none" stroke="#14b8a6" stroke-width="1.5" opacity="0.3"/>
+    <!-- Node D -->
+    <circle cx="920" cy="340" r="10" fill="#22c55e" opacity="0.8"/>
+    <circle cx="920" cy="340" r="20" fill="none" stroke="#22c55e" stroke-width="1.5" opacity="0.3"/>
+    <!-- Node E -->
+    <circle cx="620" cy="440" r="10" fill="#14b8a6" opacity="0.8"/>
+    <circle cx="620" cy="440" r="20" fill="none" stroke="#14b8a6" stroke-width="1.5" opacity="0.3"/>
+  </g>
+
+  <!-- Distance measurement lines -->
+  <g opacity="0.3" stroke="url(#accent)" stroke-width="1.5" stroke-dasharray="8,5" fill="none">
+    <line x1="280" y1="180" x2="750" y2="140"/>
+    <line x1="280" y1="180" x2="420" y2="380"/>
+    <line x1="750" y1="140" x2="920" y2="340"/>
+    <line x1="420" y1="380" x2="620" y2="440"/>
+    <line x1="920" y1="340" x2="620" y2="440"/>
+    <line x1="280" y1="180" x2="920" y2="340"/>
+    <line x1="750" y1="140" x2="620" y2="440"/>
+  </g>
+
+  <!-- Distance labels -->
+  <g font-family="monospace" font-size="11" fill="#14b8a6" opacity="0.5">
+    <text x="515" y="150">14.2 km</text>
+    <text x="310" y="300">22.7 km</text>
+    <text x="835" y="255">28.1 km</text>
+  </g>
+
+  <!-- Contour lines (topographic feel) -->
+  <g opacity="0.05" stroke="#22c55e" stroke-width="1" fill="none">
+    <ellipse cx="600" cy="290" rx="500" ry="200"/>
+    <ellipse cx="600" cy="290" rx="380" ry="150"/>
+    <ellipse cx="600" cy="290" rx="260" ry="100"/>
+  </g>
+
+  <!-- Glow -->
+  <radialGradient id="orb" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" style="stop-color:#14b8a6;stop-opacity:0.08"/>
+    <stop offset="100%" style="stop-color:#14b8a6;stop-opacity:0"/>
+  </radialGradient>
+  <ellipse cx="600" cy="290" rx="500" ry="280" fill="url(#orb)"/>
+
+  <text x="600" y="548" font-family="monospace" font-size="13" fill="#14b8a6" opacity="0.5" text-anchor="middle" letter-spacing="6">GIS · DISTANCE MATRIX · LARAVEL · GOOGLE MAPS API</text>
+</svg>

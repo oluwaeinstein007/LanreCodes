@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0a2e"/>
+      <stop offset="50%" style="stop-color:#1a0a3d"/>
+      <stop offset="100%" style="stop-color:#0a1a2e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a855f7"/>
+      <stop offset="100%" style="stop-color:#3b82f6"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="600" fill="url(#bg)"/>
+
+  <!-- DNA helix left -->
+  <g opacity="0.18" stroke="#a855f7" stroke-width="2" fill="none">
+    <path d="M 150,50 Q 200,150 150,250 Q 100,350 150,450 Q 200,550 150,600"/>
+    <path d="M 250,50 Q 200,150 250,250 Q 300,350 250,450 Q 200,550 250,600"/>
+    <line x1="150" y1="107" x2="250" y2="107"/>
+    <line x1="150" y1="193" x2="250" y2="193"/>
+    <line x1="150" y1="300" x2="250" y2="300"/>
+    <line x1="150" y1="407" x2="250" y2="407"/>
+    <line x1="150" y1="493" x2="250" y2="493"/>
+  </g>
+
+  <!-- DNA helix right -->
+  <g opacity="0.18" stroke="#3b82f6" stroke-width="2" fill="none">
+    <path d="M 950,50 Q 1000,150 950,250 Q 900,350 950,450 Q 1000,550 950,600"/>
+    <path d="M 1050,50 Q 1000,150 1050,250 Q 1100,350 1050,450 Q 1000,550 1050,600"/>
+    <line x1="950" y1="107" x2="1050" y2="107"/>
+    <line x1="950" y1="193" x2="1050" y2="193"/>
+    <line x1="950" y1="300" x2="1050" y2="300"/>
+    <line x1="950" y1="407" x2="1050" y2="407"/>
+    <line x1="950" y1="493" x2="1050" y2="493"/>
+  </g>
+
+  <!-- Central cross / pharmacy symbol -->
+  <g transform="translate(530, 170)" filter="url(#glow)">
+    <rect x="55" y="0" width="30" height="140" rx="4" fill="none" stroke="url(#accent)" stroke-width="2.5" opacity="0.7"/>
+    <rect x="0" y="55" width="140" height="30" rx="4" fill="none" stroke="url(#accent)" stroke-width="2.5" opacity="0.7"/>
+    <rect x="60" y="5" width="20" height="130" rx="3" fill="url(#accent)" opacity="0.12"/>
+    <rect x="5" y="60" width="130" height="20" rx="3" fill="url(#accent)" opacity="0.12"/>
+  </g>
+
+  <!-- Molecule dots -->
+  <g filter="url(#glow)">
+    <circle cx="600" cy="290" r="22" fill="none" stroke="url(#accent)" stroke-width="2" opacity="0.5"/>
+    <circle cx="600" cy="290" r="10" fill="url(#accent)" opacity="0.3"/>
+    <circle cx="480" cy="220" r="8" fill="#a855f7" opacity="0.4"/>
+    <circle cx="720" cy="220" r="8" fill="#3b82f6" opacity="0.4"/>
+    <circle cx="480" cy="360" r="8" fill="#3b82f6" opacity="0.4"/>
+    <circle cx="720" cy="360" r="8" fill="#a855f7" opacity="0.4"/>
+    <line x1="480" y1="220" x2="600" y2="290" stroke="#a855f7" stroke-width="1.5" opacity="0.25"/>
+    <line x1="720" y1="220" x2="600" y2="290" stroke="#3b82f6" stroke-width="1.5" opacity="0.25"/>
+    <line x1="480" y1="360" x2="600" y2="290" stroke="#3b82f6" stroke-width="1.5" opacity="0.25"/>
+    <line x1="720" y1="360" x2="600" y2="290" stroke="#a855f7" stroke-width="1.5" opacity="0.25"/>
+  </g>
+
+  <!-- Glow orb -->
+  <radialGradient id="orb" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" style="stop-color:#a855f7;stop-opacity:0.12"/>
+    <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0"/>
+  </radialGradient>
+  <ellipse cx="600" cy="290" rx="300" ry="220" fill="url(#orb)"/>
+
+  <text x="600" y="505" font-family="monospace" font-size="13" fill="#a855f7" opacity="0.5" text-anchor="middle" letter-spacing="6">LLM · EMBEDDINGS · RAG PIPELINE · QDRANT</text>
+</svg>

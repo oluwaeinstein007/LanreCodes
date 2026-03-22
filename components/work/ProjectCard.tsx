@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { ExternalLink, Github } from 'lucide-react';
 import Tag from '@/components/ui/Tag';
 import type { Project } from '@/lib/data/projects';
@@ -32,12 +31,11 @@ export default function ProjectCard({ project, featured = false }: Props) {
       {/* Cover image / gradient */}
       <div className={`relative overflow-hidden ${featured ? 'h-64 md:h-80' : 'h-48'}`}>
         {project.image ? (
-          <Image
+          // Use <img> for SVGs (Next.js <Image> blocks SVG by default)
+          <img
             src={project.image}
             alt={project.title}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-            sizes={featured ? '100vw' : '(max-width: 768px) 100vw, 50vw'}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         ) : (
           <div className="w-full h-full" style={{ background: gradient }} />
