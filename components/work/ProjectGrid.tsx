@@ -10,7 +10,7 @@ export default function ProjectGrid() {
   const [filter, setFilter] = useState<FilterValue>('all');
 
   const featured = projects.find((p) => p.featured);
-  const filtered = projects.filter((p) =>
+  const rest = projects.filter((p) =>
     filter === 'all' ? !p.featured : p.category === filter
   );
 
@@ -18,14 +18,15 @@ export default function ProjectGrid() {
     <div>
       <FilterTabs active={filter} onChange={setFilter} />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Featured project (only in "all" view) */}
+      {/* Bento grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-auto">
+        {/* Featured — spans full width */}
         <AnimatePresence mode="wait">
           {filter === 'all' && featured && (
             <motion.div
               key="featured"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.98 }}
               transition={{ duration: 0.4 }}
               className="col-span-full"
@@ -35,13 +36,20 @@ export default function ProjectGrid() {
           )}
         </AnimatePresence>
 
-        {/* Regular grid */}
-        {filtered.map((p, i) => (
+        {/* Rest of cards — staggered entrance */}
+        {rest.map((p, i) => (
           <motion.div
             key={p.id}
-            initial={{ opacity: 0, y: 20 }}
+            layout
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: i * 0.08 }}
+            exit={{ opacity: 0, y: 12 }}
+            transition={{ duration: 0.4, delay: i * 0.07 }}
+            className={
+              p.span === 'wide'
+                ? 'md:col-span-2'
+                : ''
+            }
           >
             <ProjectCard project={p} />
           </motion.div>

@@ -1,8 +1,8 @@
 'use client';
 
-import { Suspense, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, MeshTransmissionMaterial } from '@react-three/drei';
+import { Suspense, useRef, useState } from 'react';
+import { Canvas, useFrame, invalidate } from '@react-three/fiber';
+import { AdaptiveEvents, Preload } from '@react-three/drei';
 import * as THREE from 'three';
 import { useAccentColor } from '@/lib/useAccentColor';
 import { useReduceMotionStore } from '@/lib/useReduceMotion';
@@ -26,11 +26,10 @@ function Icosahedron() {
     if (!reduceMotion) {
       meshRef.current.rotation.y = clock.getElapsedTime() * 0.18;
       meshRef.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.1) * 0.2;
-      // Subtle mouse parallax
       const targetX = (mouse.y / window.innerHeight - 0.5) * 0.3;
-      const targetY = (mouse.x / window.innerWidth - 0.5) * 0.3;
       meshRef.current.rotation.x += (targetX - meshRef.current.rotation.x) * 0.05;
     }
+    invalidate();
   });
 
   const [r, g, b] = hexToVec3(accent.value);
@@ -42,7 +41,7 @@ function Icosahedron() {
       <meshStandardMaterial
         color={color}
         emissive={color}
-        emissiveIntensity={0.5}
+        emissiveIntensity={0.4}
         wireframe
         transparent
         opacity={0.85}
@@ -65,24 +64,30 @@ function InnerGlow() {
 }
 
 export default function HeroCanvas() {
+  const [frameloop, setFrameloop] = useState<'demand' | 'always'>('demand');
+
   return (
     <div
-      className="w-full h-full"
+      style={{ width: '100%', height: '100%', cursor: 'none' }}
       aria-label="Decorative 3D geometric shape"
       role="img"
+      onMouseEnter={() => setFrameloop('always')}
+      onMouseLeave={() => setFrameloop('demand')}
     >
       <Canvas
-        frameloop="always"
-        camera={{ position: [0, 0, 4], fov: 50 }}
+        frameloop={frameloop}
+        camera={{ position: [0, 0, 5], fov: 45 }}
         gl={{ antialias: true, alpha: true }}
       >
-        <ambientLight intensity={0.3} />
-        <pointLight position={[5, 5, 5]} intensity={1.2} />
+        <ambientLight intensity={0.4} />
+        <pointLight position={[10, 10, 10]} intensity={1} />
         <pointLight position={[-5, -5, -5]} intensity={0.5} />
         <Suspense fallback={null}>
           <InnerGlow />
           <Icosahedron />
         </Suspense>
+        <AdaptiveEvents />
+        <Preload all />
       </Canvas>
     </div>
   );

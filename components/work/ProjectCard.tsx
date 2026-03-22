@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
 import Tag from '@/components/ui/Tag';
 import type { Project } from '@/lib/data/projects';
@@ -18,20 +18,46 @@ type Props = { project: Project; featured?: boolean };
 export default function ProjectCard({ project, featured = false }: Props) {
   const gradient = GRADIENT_FALLBACKS[project.category] || GRADIENT_FALLBACKS['web'];
 
+  // 3D tilt via mouse position
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), { stiffness: 300, damping: 30 });
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), { stiffness: 300, damping: 30 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5);
+    mouseY.set((e.clientY - rect.top) / rect.height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
+  };
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
-      whileHover={{ y: -6, boxShadow: '0 24px 60px var(--accent-glow)' }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={`group relative rounded-3xl overflow-hidden cursor-pointer ${featured ? 'col-span-full' : ''}`}
-      style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        transformPerspective: 1000,
+        background: 'var(--surface)',
+        border: '1px solid var(--border)',
+        willChange: 'transform',
+      }}
+      whileHover={{ boxShadow: '0 24px 60px var(--accent-glow)' }}
+      className="group relative rounded-3xl overflow-hidden cursor-pointer h-full"
     >
       {/* Cover image / gradient */}
-      <div className={`relative overflow-hidden ${featured ? 'h-64 md:h-80' : 'h-48'}`}>
+      <div className={`relative overflow-hidden ${featured ? 'h-72 md:h-96' : 'h-52'}`}>
         {project.image ? (
-          // Use <img> for SVGs (Next.js <Image> blocks SVG by default)
           <img
             src={project.image}
             alt={project.title}

@@ -8,6 +8,7 @@ import SettingsPanel from '@/components/layout/SettingsPanel';
 import CustomCursor from '@/components/layout/CustomCursor';
 import AccentColorSync from '@/components/layout/AccentColorSync';
 import SuppressWarnings from '@/components/layout/SuppressWarnings';
+import LenisProvider from '@/components/layout/LenisProvider';
 
 const syne = Syne({
   subsets: ['latin'],
@@ -84,6 +85,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           storageKey="lanre-theme"
         >
           <SuppressWarnings />
+          <LenisProvider />
           <AccentColorSync />
           <CustomCursor />
           <Navbar />

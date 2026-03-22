@@ -203,6 +203,17 @@ section[id] {
   transition-timing-function: ease;
 }
 
+/* ─── Hide custom cursor on touch/mobile devices ─── */
+@media (hover: none) {
+  html, body, canvas {
+    cursor: auto !important;
+  }
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
+}
+
 /* Override for animated elements (don't inherit global transitions) */
 .no-theme-transition,
 .no-theme-transition * {

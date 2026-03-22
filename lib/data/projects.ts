@@ -9,6 +9,7 @@ export type Project = {
   liveUrl?: string;
   githubUrl?: string;
   featured?: boolean;
+  span?: 'single' | 'wide';
   date: string;
 };
 
@@ -23,6 +24,7 @@ export const projects: Project[] = [
     category: 'ai',
     image: '/projects/permitoai.svg',
     featured: true,
+    span: 'wide',
     date: 'February 2026',
   },
   {

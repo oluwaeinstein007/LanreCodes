@@ -2,7 +2,7 @@
 
 import { Suspense, useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Text } from '@react-three/drei';
+import { Text, AdaptiveEvents, Preload } from '@react-three/drei';
 import * as THREE from 'three';
 import { useAccentColor } from '@/lib/useAccentColor';
 import { useReduceMotionStore } from '@/lib/useReduceMotion';
@@ -98,6 +98,8 @@ export default function SkillsGlobe() {
         <Suspense fallback={null}>
           <Globe />
         </Suspense>
+        <AdaptiveEvents />
+        <Preload all />
       </Canvas>
     </div>
   );
