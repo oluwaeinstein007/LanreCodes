@@ -30,7 +30,10 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
+const BASE_URL = 'https://lanre-codes.vercel.app';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: 'Lanre Sanni — CTO & AI Engineer',
   description:
     'Strategic CTO and AI Engineer with 6+ years building scalable products across fintech, travel, and emerging technology.',
@@ -39,7 +42,29 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Lanre Sanni — CTO & AI Engineer',
     description: 'Building scalable systems, AI agents, and engineering teams.',
+    url: BASE_URL,
+    siteName: 'Lanre Sanni',
     type: 'website',
+    locale: 'en_US',
+    images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'Lanre Sanni — CTO & AI Engineer',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Lanre Sanni — CTO & AI Engineer',
+    description: 'Building scalable systems, AI agents, and engineering teams.',
+    creator: '@lanrecodes',
+    images: ['/opengraph-image'],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
