@@ -1,0 +1,210 @@
+@import "tailwindcss";
+
+@theme {
+  --font-syne: var(--font-syne);
+  --font-dm-sans: var(--font-dm-sans);
+  --font-jetbrains: var(--font-jetbrains);
+}
+
+/* ─── CSS Custom Properties / Design Tokens ─── */
+:root {
+  /* Dark mode defaults */
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --surface-2: #1a1a26;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.16);
+  --text-primary: #f0f0f8;
+  --text-secondary: rgba(240, 240, 248, 0.55);
+  --text-tertiary: rgba(240, 240, 248, 0.35);
+  --accent: #3b82f6;
+  --accent-muted: rgba(59, 130, 246, 0.15);
+  --accent-glow: rgba(59, 130, 246, 0.3);
+
+  /* Base font size */
+  --base-font-size: 16px;
+}
+
+/* Explicit dark mode (matches next-themes attribute) */
+[data-theme="dark"] {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --surface-2: #1a1a26;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.16);
+  --text-primary: #f0f0f8;
+  --text-secondary: rgba(240, 240, 248, 0.55);
+  --text-tertiary: rgba(240, 240, 248, 0.35);
+}
+
+[data-theme="light"] {
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --surface-2: #eeede9;
+  --border: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(0, 0, 0, 0.16);
+  --text-primary: #0f0f14;
+  --text-secondary: rgba(15, 15, 20, 0.55);
+  --text-tertiary: rgba(15, 15, 20, 0.35);
+  --accent-muted: rgba(59, 130, 246, 0.1);
+  --accent-glow: rgba(59, 130, 246, 0.2);
+}
+
+/* ─── Base Reset (in @layer base so Tailwind utilities can override) ─── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+html {
+  font-size: var(--base-font-size);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: none;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Force cursor:none on R3F/Three.js canvas elements so they don't override the custom cursor */
+canvas {
+  cursor: none !important;
+}
+
+/* ─── Selection ─── */
+::selection {
+  background-color: var(--accent);
+  color: #fff;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* ─── Custom Cursor ─── */
+.cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, border-color 0.2s ease;
+  opacity: 0.6;
+}
+
+.cursor-dot.hover {
+  width: 12px;
+  height: 12px;
+}
+
+.cursor-ring.hover {
+  width: 56px;
+  height: 56px;
+  opacity: 0.4;
+}
+
+/* ─── Typography Helpers ─── */
+.font-display {
+  font-family: var(--font-syne), sans-serif;
+}
+.font-mono {
+  font-family: var(--font-jetbrains), monospace;
+}
+
+/* ─── Glassmorphism ─── */
+.glass {
+  background: rgba(18, 18, 26, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
+
+[data-theme="light"] .glass {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+/* ─── Accent color utilities ─── */
+.accent-text { color: var(--accent); }
+.accent-bg { background-color: var(--accent); }
+.accent-border { border-color: var(--accent); }
+.accent-shadow { box-shadow: 0 0 20px var(--accent-glow); }
+
+/* ─── Gradient text ─── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ─── Noise grain texture overlay ─── */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ─── Focus styles ─── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ─── Scroll offset for fixed navbar ─── */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* ─── Transitions on theme switch ─── */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
+/* Override for animated elements (don't inherit global transitions) */
+.no-theme-transition,
+.no-theme-transition * {
+  transition: none !important;
+}

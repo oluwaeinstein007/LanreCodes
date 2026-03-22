@@ -1,0 +1,16 @@
+[
+  {
+    "name": "PermitoAI",
+    "subtitle": "AI Safety and Compliance Agent",
+    "date": "February 2026",
+    "stack": ["TypeScript", "LLM", "Multi-Agent Architecture", "RAG Pipeline", "Vector DB (Qdrant)"],
+    "description": "AI-powered Electronic Permit-to-Work (ePTW) system for Nigerian oil and gas operations. Features include multi-agent risk assessment, compliance checking, SIMOP (simultaneous operations) management, predictive scheduling, hazard suggestion, and intelligent routing for safety-critical workflows."
+  },
+  {
+    "name": "PharmAssist",
+    "subtitle": "AI Pharmacy Agent",
+    "date": "December 2025",
+    "stack": ["LLM", "Embeddings", "Docker", "TypeScript", "RAG Pipeline", "Vector DB (Qdrant)"],
+    "description": "AI-powered pharmaceutical search agent built for MedPlus. Leverages embeddings and vector search to deliver intelligent drug information retrieval and pharmaceutical query resolution for users and pharmacy staff."
+  }
+]

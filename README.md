@@ -1,36 +1,181 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lanre Sanni — Portfolio
+
+Personal portfolio website for **Sanni Olanrewaju (Lanre)** — CTO & AI Engineer. A premium, single-page dark-mode experience built with Next.js 16, Three.js, and Framer Motion.
+
+**Live sections:** Hero → About → Experience → Work → Skills → Contact
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16.2.1 (App Router, Turbopack) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Animation | Framer Motion |
+| 3D / WebGL | React Three Fiber + @react-three/drei + Three.js |
+| Theme | next-themes (dark/light toggle) |
+| State | Zustand with persist middleware |
+| Icons | Lucide React |
+| Fonts | Syne · DM Sans · JetBrains Mono (Google Fonts) |
+
+---
+
+## Features
+
+- **Single-page layout** — smooth scroll navigation with IntersectionObserver active-link tracking
+- **3D Hero icosahedron** — wireframe mesh with mouse parallax via React Three Fiber
+- **3D Skills globe** — Fibonacci sphere distribution of skill tags, auto-rotating
+- **Particle background** — Three.js 600-point particle cloud on the hero
+- **Custom cursor** — lerped ring + dot cursor, expands on interactive elements
+- **Settings panel** — theme toggle, 8 accent colours, font size, reduce-motion
+- **Glassmorphic navbar** — shrinks on scroll, active section highlighted
+- **Animated stat counters** — count-up on scroll into view
+- **Alternating section backgrounds** — clear visual separation between sections
+- **Fully responsive** — mobile menu overlay, responsive grid layouts
+
+---
+
+## Project Structure
+
+```
+├── app/
+│   ├── layout.tsx              # Root layout — fonts, ThemeProvider, global providers
+│   └── page.tsx                # Single page — all sections composed here
+├── components/
+│   ├── layout/
+│   │   ├── Navbar.tsx              # Fixed glassmorphic nav with scroll-spy
+│   │   ├── Footer.tsx              # Social links footer
+│   │   ├── CustomCursor.tsx        # Lerped dot + ring cursor
+│   │   ├── SettingsPanel.tsx       # Floating preferences panel
+│   │   ├── PageTransition.tsx      # Framer Motion page wrapper
+│   │   ├── AccentColorSync.tsx     # Syncs Zustand accent colour to CSS vars
+│   │   └── SuppressWarnings.tsx    # Filters third-party console noise
+│   ├── home/
+│   │   ├── HeroSection.tsx         # Headline, typewriter, CTAs, stats
+│   │   ├── HeroCanvas.tsx          # R3F icosahedron
+│   │   ├── ParticleBackground.tsx  # Three.js particle cloud
+│   │   └── ParticleBackgroundClient.tsx  # SSR-safe dynamic wrapper
+│   ├── about/
+│   │   ├── AboutBio.tsx            # Photo, bio text, quick-facts grid
+│   │   ├── Timeline.tsx            # Alternating career timeline
+│   │   ├── StatCounter.tsx         # Animated count-up stats
+│   │   └── SpeakingSection.tsx     # Speaking engagement cards
+│   ├── work/
+│   │   ├── ProjectGrid.tsx         # Filtered project grid
+│   │   ├── ProjectCard.tsx         # Card with gradient fallback + hover CTA
+│   │   └── FilterTabs.tsx          # Animated category filter tabs
+│   ├── skills/
+│   │   ├── SkillsGlobe.tsx         # R3F Fibonacci sphere
+│   │   ├── SkillsGlobeClient.tsx   # SSR-safe dynamic wrapper
+│   │   └── SkillCategory.tsx       # Skill bars by category
+│   ├── contact/
+│   │   ├── ContactForm.tsx         # Floating-label form with states
+│   │   └── SocialLinks.tsx         # GitHub, LinkedIn, Twitter, Email cards
+│   └── ui/
+│       ├── Button.tsx              # Primary / ghost / outline variants
+│       ├── Tag.tsx                 # Tech stack pill
+│       └── SectionHeading.tsx      # Label + heading + animated underline
+├── lib/
+│   ├── useAccentColor.ts       # Zustand store — 8 accent colours + CSS sync
+│   ├── useReduceMotion.ts      # Zustand store — reduce-motion toggle
+│   ├── useMousePosition.ts     # Mouse position hook
+│   └── data/
+│       ├── projects.ts         # Project entries
+│       ├── timeline.ts         # Career timeline entries
+│       ├── skills.ts           # Skill categories and proficiency levels
+│       └── speaking.ts         # Speaking events
+├── styles/
+│   └── globals.css             # CSS variables, design tokens, cursor, glassmorphism
+└── public/
+    ├── cv/                     # Resume PDF
+    ├── profile/                # Profile photos
+    └── speaking/               # Speaking event images
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+**Prerequisites:** Node.js 18+ and pnpm
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+# Install dependencies
+pnpm install
+
+# Start dev server
 pnpm dev
-# or
-bun dev
+# → http://localhost:3000
+
+# Production build
+pnpm build
+pnpm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Customisation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Personal data
+All content is data-driven — edit these files without touching any component:
 
-## Learn More
+| File | What it controls |
+|---|---|
+| `lib/data/projects.ts` | Work / project cards |
+| `lib/data/timeline.ts` | Experience timeline entries |
+| `lib/data/skills.ts` | Skill categories and proficiency levels |
+| `lib/data/speaking.ts` | Speaking engagement cards |
+| `components/contact/SocialLinks.tsx` | Social handles and links |
+| `app/layout.tsx` | Site metadata (title, description, OG tags) |
 
-To learn more about Next.js, take a look at the following resources:
+### Accent colours
+Eight accent colours are defined in `lib/useAccentColor.ts`. Add or change colours in the `ACCENT_COLORS` array — they appear automatically in the settings panel.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Resume
+Replace `public/cv/Sanni_Lanre_Resume.pdf` with an updated PDF. The download links in the navbar and hero both point to this path.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Profile photo
+Replace files in `public/profile/`. The About section uses `profile.jpg` by default.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Design Tokens
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+All colours are CSS custom properties defined in `styles/globals.css`:
+
+```css
+--bg             /* Page background       */
+--surface        /* Card / panel bg       */
+--surface-2      /* Subtle nested bg      */
+--border         /* Border colour         */
+--text-primary   /* Main text             */
+--text-secondary /* Muted text            */
+--text-tertiary  /* Very muted text       */
+--accent         /* Brand accent colour   */
+--accent-muted   /* Accent at ~15% alpha  */
+--accent-glow    /* Accent at ~30% alpha  */
+```
+
+Dark mode is the default. Light mode overrides are under `[data-theme="light"]`.
+
+---
+
+## Deployment
+
+Deploys to Vercel with zero configuration:
+
+```bash
+npm i -g vercel
+vercel
+```
+
+For other platforms (Netlify, Railway, etc.) run `pnpm build` — output is in `.next/`.
+
+---
+
+## Notes
+
+- **Next.js 16 + `ssr: false`** — Dynamic imports with `ssr: false` must live inside a `'use client'` component. All Three.js canvases use a thin `*Client.tsx` wrapper for this reason.
+- **Contact form** — Currently logs to the console. Wire up a real backend (Resend, EmailJS, or a Next.js API route) in `components/contact/ContactForm.tsx`.
+- **Project images** — Cards use CSS gradient fallbacks by category. Add real screenshots to `public/projects/` and set the `image` field in `lib/data/projects.ts`.

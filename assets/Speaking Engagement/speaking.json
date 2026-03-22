@@ -1,0 +1,84 @@
+[
+  {
+    "event": "Cabalversity",
+    "organizer": "FoundersCabal",
+    "topic": "Securing Your Startup Software Infrastructure",
+    "date": "01 July 2023",
+    "time": "07:00 PM WAT",
+    "platform": "X (Twitter) Space",
+    "role": "Speaker",
+    "coParticipants": [
+      {
+        "name": "Emmanuel",
+        "role": "Host",
+        "affiliation": "Oghowa Accelerator"
+      },
+      {
+        "name": "Collins",
+        "role": "Speaker",
+        "affiliation": "10tacles"
+      },
+      {
+        "name": "Liberty",
+        "role": "Speaker",
+        "affiliation": "GoNomad"
+      }
+    ],
+    "speakerName": "Lanre",
+    "speakerAffiliation": "MobiMedik"
+  },
+  {
+    "event": "The OpenUp Series",
+    "organizer": "The Productant",
+    "topic": "Humans Behind the Tech: What it Really Takes to Build with AI, AR/VR and IOT",
+    "date": "26 April 2025",
+    "time": "07:00 PM",
+    "platform": "X Space",
+    "registrationLink": "Bit.ly/TheProductantOpenUpSeries",
+    "role": "Speaker",
+    "coParticipants": [
+      {
+        "name": "Blessing Okougbenin",
+        "role": "Moderator",
+        "affiliation": "Product Manager, Selldome Technologies"
+      },
+      {
+        "name": "Olarenwaju Lawal",
+        "role": "Speaker",
+        "affiliation": "Full Stack Developer, Equalyz AI"
+      }
+    ],
+    "speakerName": "Lanre Sanni",
+    "speakerTitle": "Chief Technology Officer",
+    "speakerAffiliation": "Travel Avatar"
+  },
+  {
+    "event": "PennyWise",
+    "organizer": "Pennyvest",
+    "topic": "Is Hardwork Enough to Become Wealthy Today?",
+    "date": "19 March 2026",
+    "time": "07:00 PM WAT",
+    "platform": "X Spaces",
+    "platformHandle": "@pennyvestHQ",
+    "role": "Speaker",
+    "coParticipants": [
+      {
+        "name": "Annette Eweme",
+        "role": "Host",
+        "affiliation": "Pennyvest"
+      },
+      {
+        "name": "Peace Eweme",
+        "role": "Speaker",
+        "affiliation": "Project Manager, Afrinvest Financial Empowerment Advocate"
+      },
+      {
+        "name": "Liberty Oyugboh",
+        "role": "Speaker",
+        "affiliation": "Co-founder & CTO, GoFlex & GoNomad"
+      }
+    ],
+    "speakerName": "Lanre Sanni",
+    "speakerTitle": "CTO & AI Engineer"
+  }
+]

@@ -1,0 +1,141 @@
+[
+  {
+    "company": "Collo Africa",
+    "location": "Lagos, NG",
+    "title": "Chief Technology Officer (CTO)",
+    "startDate": "April 2025",
+    "endDate": "Present",
+    "industry": "FinTech",
+    "stack": ["Laravel", "Next.js", "Flutter", "AWS (Elastic Beanstalk, RDS, EC2)", "MySQL", "Redis", "Sentry"],
+    "responsibilities": [
+      "Architected the 2025 Private MGR product stabilization and the 2026 Engineering Strategic Plan, overseeing the development and rollout of Public MGR, Savings Plan, and Loan modules.",
+      "Direct the engineering team in building high-concurrency fintech solutions using Next.js, Laravel, and AWS.",
+      "Spearhead technical recruitment and mentorship programs to scale the internal engineering culture.",
+      "Architected cloud infrastructure supporting scale from 2K to 40K+ users, implementing Redis caching and EC2 auto-scaling as priority performance improvements."
+    ]
+  },
+  {
+    "company": "Travel Avatar",
+    "location": "California, US",
+    "title": "Chief Technology Officer (CTO)",
+    "startDate": "September 2023",
+    "endDate": "Present",
+    "industry": "Travel, Leisures and Tour",
+    "stack": ["Laravel", "PHPUnit", "Eloquent", "PostgreSQL", "MySQL", "Sentry", "AWS"],
+    "responsibilities": [
+      "Implemented industry-standard engineering practices improving development velocity and code quality.",
+      "Crafted project roadmaps, defined development requirements and aligned development cycles with business goals to ensure streamlined delivery.",
+      "Implemented industry-standard practices for day-to-day development operations.",
+      "Aligned Development Team with cross-functional departments and business goals, fostering streamlined project delivery and innovation."
+    ]
+  },
+  {
+    "company": "IQAICom",
+    "location": "US",
+    "title": "Backend Engineer",
+    "startDate": "January 2025",
+    "endDate": "July 2025",
+    "industry": "Web3 AI",
+    "stack": ["Turbo", "VectorDB", "TypeScript", "CI/CD", "LLM", "FastMCP", "Docker", "AI Agent", "NestJS", "Sentry"],
+    "responsibilities": [
+      "Deployed and managed AI Agents with Docker and CI/CD, first on DigitalOcean then migrated to GCP.",
+      "Handled migration of LLM powering the AI Agents from OpenAI to Gemini LLM.",
+      "Published multiple MCP packages to npm — MCP-Fraxlend, MCP-Odos, MCP-ABI, and MCP-Near.",
+      "Built AI Agents using the IQAI TypeScript ADK (Agent Development Kit) with MCP integrations.",
+      "Worked on documentation of the IQAI ADK, MCPs and part of Brain Doc."
+    ]
+  },
+  {
+    "company": "Maldorini",
+    "location": "Lagos, NG",
+    "title": "Backend Engineer",
+    "startDate": "July 2024",
+    "endDate": "October 2024",
+    "industry": "Crypto FinTech",
+    "stack": ["Laravel", "PHPUnit", "Eloquent", "PostgreSQL", "MySQL", "Redis", "React Native", "Vanilla JS", "AWS"],
+    "responsibilities": [
+      "Built the Maldorini Community Server enabling post sharing, ad views, and crypto token (MDX) earning via interactions.",
+      "Designed an advanced personalized timeline ranking algorithm for tailored content delivery."
+    ]
+  },
+  {
+    "company": "Centiiv Technologies",
+    "location": "Lagos, Nigeria",
+    "title": "Engineering Team Lead",
+    "startDate": "June 2023",
+    "endDate": "November 2023",
+    "industry": "FinTech",
+    "stack": ["Node.js", "Express.js", "Prisma", "PostgreSQL", "MySQL", "Redis", "BullMQ"],
+    "responsibilities": [
+      "Streamlined project roadmap, enforced industry standards, codebase refactoring, managed features effectively with effective task assignment and coordination.",
+      "Integrated APIs for smooth cryptocurrency onramping/offramping, and expanded fiat currency options flexibly while reducing reliance on third-party exchange rates."
+    ]
+  },
+  {
+    "company": "Balaga Int. Limited",
+    "location": "Lagos, Nigeria",
+    "title": "Software Developer",
+    "startDate": "December 2021",
+    "endDate": "August 2023",
+    "industry": "Dating/Social Media and ECommerce",
+    "stack": ["React Native", "Winks", "Laravel"],
+    "responsibilities": [
+      "Led the Software Development Team and was part of every stage of the application development.",
+      "Engineered features: birthday email cron scheduler, secure dating matching and chat + shopping app, sleek Android and iOS apps."
+    ]
+  },
+  {
+    "company": "Tramango Limited",
+    "location": "Lagos, Nigeria",
+    "title": "Backend Engineer",
+    "startDate": "March 2022",
+    "endDate": "June 2023",
+    "industry": "Travel, Leisures and Tour",
+    "stack": ["Laravel", "MySQL", "PostgreSQL"],
+    "responsibilities": [
+      "Built the 5 major travel products and integrated several third-party APIs like Amadeus, Alliance, etc.",
+      "Developed multi-currency (5) wallet system, including vendor cashout and admin-managed conversion rates.",
+      "Created cron job scheduler for balance updates, database maintenance, and flight info management.",
+      "Integrated barcode generation API with event booking system for streamlined user and vendor attendance validation, enhancing efficiency and user experience."
+    ]
+  },
+  {
+    "company": "Go Ahead Homes",
+    "location": "London, UK",
+    "title": "Freelance Fullstack Developer",
+    "startDate": "July 2021",
+    "endDate": "August 2021",
+    "industry": "Social Services",
+    "stack": ["Laravel", "HTML5", "SASS/SCSS", "Bootstrap"],
+    "responsibilities": [
+      "Built a RESTful Website with a Blog using Laravel, Bootstrap, SCSS, and PostgreSQL.",
+      "Integrated user authentication, CRUD operations for multimedia blog posts, and deployed on Heroku."
+    ]
+  },
+  {
+    "company": "Scholar Nurture Bootcamp",
+    "location": "Lagos, Nigeria",
+    "title": "Frontend Course Educator",
+    "startDate": "April 2021",
+    "endDate": "June 2021",
+    "industry": "Bootcamp",
+    "stack": ["React.js"],
+    "responsibilities": [
+      "Developed React.js mentees' frontend roadmap and testing materials.",
+      "Conducted online tutoring and created YouTube tutorials."
+    ]
+  },
+  {
+    "company": "Alfaruq College",
+    "location": "Lagos, Nigeria",
+    "title": "Freelance Fullstack Developer",
+    "startDate": "July 2020",
+    "endDate": "August 2020",
+    "industry": "EduTech",
+    "stack": ["Laravel", "HTML5", "CSS3", "Bootstrap"],
+    "responsibilities": [
+      "Developed an online course delivery web app using Laravel and MySQL, featuring RESTful architecture.",
+      "Established user authentication, roles, and multimedia CRUD operations; deployed on Namecheap."
+    ]
+  }
+]
