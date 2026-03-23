@@ -73,6 +73,7 @@ export default function ParticleBackground() {
         frameloop="always"
         camera={{ position: [0, 0, 8], fov: 75 }}
         gl={{ antialias: false, alpha: true }}
+        style={{ pointerEvents: 'none' }}
       >
         <Suspense fallback={null}>
           <Particles />
