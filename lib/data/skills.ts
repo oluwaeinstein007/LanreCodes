@@ -17,9 +17,7 @@ export const skillCategories: SkillCategory[] = [
       { name: 'TypeScript', level: 'Expert' },
       { name: 'Node.js / Express', level: 'Expert' },
       { name: 'Next.js', level: 'Expert' },
-      { name: 'NestJS', level: 'Proficient' },
-      { name: 'React Native', level: 'Proficient' },
-      { name: 'Flutter', level: 'Familiar' },
+      { name: 'NestJS', level: 'Expert' },
     ],
   },
   {
@@ -37,13 +35,13 @@ export const skillCategories: SkillCategory[] = [
   {
     category: 'Cloud & DevOps',
     skills: [
-      { name: 'AWS (EC2, RDS, S3)', level: 'Expert' },
+      { name: 'AWS (EC2, RDS, S3)', level: 'Proficient' },
       { name: 'Docker', level: 'Expert' },
       { name: 'CI/CD Pipelines', level: 'Expert' },
       { name: 'GCP', level: 'Proficient' },
-      { name: 'DigitalOcean', level: 'Proficient' },
+      { name: 'DigitalOcean', level: 'Expert' },
       { name: 'Redis', level: 'Expert' },
-      { name: 'Sentry', level: 'Proficient' },
+      { name: 'Sentry', level: 'Expert' },
     ],
   },
   {
@@ -57,13 +55,24 @@ export const skillCategories: SkillCategory[] = [
     ],
   },
   {
+    category: 'System Design & Architecture',
+    skills: [
+      { name: 'Microservices Architecture', level: 'Expert' },
+      { name: 'Event-Driven Systems', level: 'Expert' },
+      { name: 'API Design (REST / GraphQL)', level: 'Expert' },
+      { name: 'Scalability & Performance', level: 'Expert' },
+      { name: 'Database Design', level: 'Expert' },
+      { name: 'Multi-Tenant Architecture', level: 'Proficient' },
+      { name: 'Message Queues', level: 'Expert' },
+    ],
+  },
+  {
     category: 'Leadership & Process',
     skills: [
       { name: 'Strategic Roadmapping', level: 'Expert' },
       { name: 'Agile Methodologies', level: 'Expert' },
       { name: 'Team Mentorship', level: 'Expert' },
       { name: 'Technical Recruitment', level: 'Proficient' },
-      { name: 'System Architecture', level: 'Expert' },
     ],
   },
 ];
