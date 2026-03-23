@@ -50,10 +50,12 @@ function Toast({ state, onClose }: { state: 'success' | 'error'; onClose: () => 
   );
 }
 
+const EMPTY_FORM = { name: '', email: '', subject: '', message: '' };
+
 export default function ContactForm() {
   const [state, setState] = useState<State>('idle');
   const [toast, setToast] = useState<'success' | 'error' | null>(null);
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
+  const [form, setForm] = useState(EMPTY_FORM);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
@@ -66,6 +68,7 @@ export default function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (state === 'loading') return;
     setState('loading');
     try {
       const res = await fetch('/api/contact', {
@@ -75,7 +78,7 @@ export default function ContactForm() {
       });
       if (res.ok) {
         setState('success');
-        setForm({ name: '', email: '', subject: '', message: '' });
+        setForm(EMPTY_FORM);
         showToast('success');
       } else {
         setState('error');
@@ -100,97 +103,138 @@ export default function ContactForm() {
         {toast && <Toast key={toast} state={toast} onClose={() => setToast(null)} />}
       </AnimatePresence>
 
-      <motion.form
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        onSubmit={handleSubmit}
-        className="space-y-5"
-      >
-        {fields.map((field, i) => (
+      <AnimatePresence mode="wait">
+        {state === 'success' ? (
           <motion.div
-            key={field.name}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.08 }}
-            className="relative"
+            key="success"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-col items-center gap-4 py-20 text-center"
           >
-            <input
-              type={field.type}
-              name={field.name}
-              id={field.name}
-              required={field.required}
-              value={form[field.name as keyof typeof form]}
-              onChange={handleChange}
-              placeholder=" "
-              disabled={state === 'loading'}
-              className="peer w-full px-4 pt-6 pb-2 rounded-xl text-sm font-medium outline-none transition-all duration-200 disabled:opacity-60"
-              style={{
-                background: 'var(--surface)',
-                border: '1px solid var(--border)',
-                color: 'var(--text-primary)',
-              }}
-              onFocus={(e) => (e.target.style.borderColor = 'var(--accent)')}
-              onBlur={(e) => (e.target.style.borderColor = 'var(--border)')}
-            />
-            <label
-              htmlFor={field.name}
-              className="absolute left-4 top-4 text-xs font-mono transition-all duration-200 pointer-events-none peer-placeholder-shown:top-4 peer-focus:top-2 peer-focus:text-xs peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs"
-              style={{ color: 'var(--text-tertiary)', fontSize: '0.7rem' }}
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.1, type: 'spring', stiffness: 200, damping: 15 }}
             >
-              {field.label}
-            </label>
+              <CheckCircle size={56} className="accent-text" />
+            </motion.div>
+            <h3 className="font-display text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
+              Message sent!
+            </h3>
+            <p style={{ color: 'var(--text-secondary)' }}>
+              Thanks for reaching out. I&apos;ll get back to you within 24–48 hours.
+            </p>
+            <button
+              onClick={() => setState('idle')}
+              className="font-mono text-sm underline mt-2"
+              style={{ color: 'var(--accent)' }}
+            >
+              Send another message
+            </button>
           </motion.div>
-        ))}
-
-        {/* Message textarea */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4, delay: 0.24 }}
-          className="relative"
-        >
-          <textarea
-            name="message"
-            id="message"
-            required
-            rows={5}
-            value={form.message}
-            onChange={handleChange}
-            placeholder=" "
-            disabled={state === 'loading'}
-            className="peer w-full px-4 pt-6 pb-2 rounded-xl text-sm font-medium outline-none transition-all duration-200 resize-none disabled:opacity-60"
-            style={{
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
-              color: 'var(--text-primary)',
-            }}
-            onFocus={(e) => (e.target.style.borderColor = 'var(--accent)')}
-            onBlur={(e) => (e.target.style.borderColor = 'var(--border)')}
-          />
-          <label
-            htmlFor="message"
-            className="absolute left-4 top-3 text-xs font-mono pointer-events-none"
-            style={{ color: 'var(--text-tertiary)', fontSize: '0.7rem' }}
+        ) : (
+          <motion.div
+            key="form"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
           >
-            Your Message
-          </label>
-        </motion.div>
+            <form onSubmit={handleSubmit} className="space-y-5" noValidate={false}>
+              {fields.map((field, i) => (
+                <motion.div
+                  key={field.name}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: i * 0.08 }}
+                  className="relative"
+                >
+                  <input
+                    type={field.type}
+                    name={field.name}
+                    id={field.name}
+                    required={field.required}
+                    value={form[field.name as keyof typeof form]}
+                    onChange={handleChange}
+                    placeholder=" "
+                    disabled={state === 'loading'}
+                    className="peer w-full px-4 pt-6 pb-2 rounded-xl text-sm font-medium outline-none transition-all duration-200 disabled:opacity-60"
+                    style={{
+                      background: 'var(--surface)',
+                      border: '1px solid var(--border)',
+                      color: 'var(--text-primary)',
+                    }}
+                    onFocus={(e) => (e.target.style.borderColor = 'var(--accent)')}
+                    onBlur={(e) => (e.target.style.borderColor = 'var(--border)')}
+                  />
+                  <label
+                    htmlFor={field.name}
+                    className="absolute left-4 top-4 text-xs font-mono transition-all duration-200 pointer-events-none peer-placeholder-shown:top-4 peer-focus:top-2 peer-focus:text-xs peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs"
+                    style={{ color: 'var(--text-tertiary)', fontSize: '0.7rem' }}
+                  >
+                    {field.label}
+                  </label>
+                </motion.div>
+              ))}
 
-        <Button
-          type="submit"
-          variant="primary"
-          size="lg"
-          loading={state === 'loading'}
-          className="w-full"
-        >
-          <Send size={16} />
-          Send Message
-        </Button>
-      </motion.form>
+              {/* Message textarea */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 0.24 }}
+                className="relative"
+              >
+                <textarea
+                  name="message"
+                  id="message"
+                  required
+                  rows={5}
+                  value={form.message}
+                  onChange={handleChange}
+                  placeholder=" "
+                  disabled={state === 'loading'}
+                  className="peer w-full px-4 pt-6 pb-2 rounded-xl text-sm font-medium outline-none transition-all duration-200 resize-none disabled:opacity-60"
+                  style={{
+                    background: 'var(--surface)',
+                    border: '1px solid var(--border)',
+                    color: 'var(--text-primary)',
+                  }}
+                  onFocus={(e) => (e.target.style.borderColor = 'var(--accent)')}
+                  onBlur={(e) => (e.target.style.borderColor = 'var(--border)')}
+                />
+                <label
+                  htmlFor="message"
+                  className="absolute left-4 top-3 text-xs font-mono pointer-events-none"
+                  style={{ color: 'var(--text-tertiary)', fontSize: '0.7rem' }}
+                >
+                  Your Message
+                </label>
+              </motion.div>
+
+              {state === 'error' && (
+                <div className="flex items-center gap-2 text-sm" style={{ color: '#ef4444' }}>
+                  <XCircle size={16} />
+                  Something went wrong. Please try again or email me directly.
+                </div>
+              )}
+
+              <Button
+                type="submit"
+                variant="primary"
+                size="lg"
+                loading={state === 'loading'}
+                className="w-full"
+                onClick={handleSubmit}
+              >
+                <Send size={16} />
+                Send Message
+              </Button>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
