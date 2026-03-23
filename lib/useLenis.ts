@@ -9,8 +9,10 @@ export function useLenis() {
     if (shouldReduceMotion) return;
 
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.08,
+      wheelMultiplier: 1.2,
+      touchMultiplier: 2,
+      smoothWheel: true,
     });
 
     function raf(time: number) {

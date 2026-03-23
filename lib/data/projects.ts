@@ -23,6 +23,7 @@ export const projects: Project[] = [
     tags: ['TypeScript', 'LLM', 'Multi-Agent', 'RAG Pipeline', 'Vector DB (Qdrant)'],
     category: 'ai',
     image: '/projects/permitoai.svg',
+    githubUrl: 'https://github.com/oluwaeinstein007/PermtoAI',
     featured: true,
     span: 'wide',
     date: 'February 2026',
@@ -36,6 +37,7 @@ export const projects: Project[] = [
     tags: ['LLM', 'Embeddings', 'Docker', 'TypeScript', 'RAG Pipeline', 'Qdrant'],
     category: 'ai',
     image: '/projects/pharmassist.svg',
+    githubUrl: 'https://github.com/oluwaeinstein007/PharmAssist',
     date: 'December 2025',
   },
   {
@@ -47,6 +49,7 @@ export const projects: Project[] = [
     tags: ['LLM', 'AI Agents', 'Financial APIs', 'TypeScript'],
     category: 'ai',
     image: '/projects/nvestpadi.svg',
+    githubUrl: 'https://github.com/oluwaeinstein007/nVestPadi',
     date: 'December 2025',
   },
   {
@@ -70,6 +73,8 @@ export const projects: Project[] = [
     tags: ['LLM', 'AI Agents', 'Next.js'],
     category: 'ai',
     image: '/projects/travelmind.svg',
+    githubUrl: 'https://github.com/oluwaeinstein007/TravelMind',
+    liveUrl: 'https://travel-mind-xi.vercel.app',
     date: 'November 2024',
   },
   {
@@ -81,6 +86,7 @@ export const projects: Project[] = [
     tags: ['Laravel', 'PHPUnit', 'Guzzle', 'Google Distance Matrix'],
     category: 'api',
     image: '/projects/siteprox.svg',
+    githubUrl: 'https://github.com/oluwaeinstein007/SiteProx-GIS-API',
     date: 'May 2024',
   },
   {
@@ -92,7 +98,7 @@ export const projects: Project[] = [
     tags: ['Laravel', 'MySQL', 'PHPUnit'],
     category: 'open-source',
     image: '/projects/keypal.svg',
-    githubUrl: 'https://github.com/oluwaeinstein007',
+    githubUrl: 'https://github.com/oluwaeinstein007/KeyPalVault',
     date: 'June 2023',
   },
 ];
