@@ -2,10 +2,27 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle, XCircle, X } from 'lucide-react';
+import { Send, CheckCircle, XCircle, X, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 type State = 'idle' | 'loading' | 'success' | 'error';
+type FieldErrors = Partial<Record<'name' | 'email' | 'subject' | 'message', string>>;
+
+const EMPTY_FORM = { name: '', email: '', subject: '', message: '' };
+
+function validate(form: typeof EMPTY_FORM): FieldErrors {
+  const errors: FieldErrors = {};
+  if (!form.name.trim()) errors.name = 'Name is required.';
+  if (!form.email.trim()) {
+    errors.email = 'Email is required.';
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+    errors.email = 'Enter a valid email address.';
+  }
+  if (!form.subject.trim()) errors.subject = 'Subject is required.';
+  if (!form.message.trim()) errors.message = 'Message is required.';
+  else if (form.message.trim().length < 10) errors.message = 'Message is too short (min 10 characters).';
+  return errors;
+}
 
 function Toast({ state, onClose }: { state: 'success' | 'error'; onClose: () => void }) {
   const isSuccess = state === 'success';
@@ -30,12 +47,12 @@ function Toast({ state, onClose }: { state: 'success' | 'error'; onClose: () => 
       )}
       <div className="flex-1 min-w-0">
         <p className="font-mono font-semibold text-sm" style={{ color: isSuccess ? '#10b981' : '#ef4444' }}>
-          {isSuccess ? 'Message sent!' : 'Something went wrong'}
+          {isSuccess ? 'Message sent!' : 'Failed to send'}
         </p>
         <p className="text-xs mt-0.5" style={{ color: 'var(--text-secondary)' }}>
           {isSuccess
             ? "I'll get back to you within 24–48 hours."
-            : 'Please try again or email me directly.'}
+            : 'Something went wrong. Please try again.'}
         </p>
       </div>
       <button
@@ -50,15 +67,49 @@ function Toast({ state, onClose }: { state: 'success' | 'error'; onClose: () => 
   );
 }
 
-const EMPTY_FORM = { name: '', email: '', subject: '', message: '' };
+function FieldError({ message }: { message?: string }) {
+  return (
+    <AnimatePresence>
+      {message && (
+        <motion.p
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -4 }}
+          transition={{ duration: 0.2 }}
+          className="flex items-center gap-1.5 text-xs mt-1.5 font-mono"
+          style={{ color: '#ef4444' }}
+        >
+          <AlertCircle size={11} />
+          {message}
+        </motion.p>
+      )}
+    </AnimatePresence>
+  );
+}
 
 export default function ContactForm() {
   const [state, setState] = useState<State>('idle');
   const [toast, setToast] = useState<'success' | 'error' | null>(null);
   const [form, setForm] = useState(EMPTY_FORM);
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [touched, setTouched] = useState<Partial<Record<keyof typeof EMPTY_FORM, boolean>>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    const updated = { ...form, [name]: value };
+    setForm(updated);
+    // Clear error for this field once user starts fixing it
+    if (touched[name as keyof typeof EMPTY_FORM]) {
+      const newErrors = validate(updated);
+      setErrors((prev) => ({ ...prev, [name]: newErrors[name as keyof FieldErrors] }));
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    const fieldErrors = validate(form);
+    setErrors((prev) => ({ ...prev, [name]: fieldErrors[name as keyof FieldErrors] }));
   };
 
   const showToast = (type: 'success' | 'error') => {
@@ -69,6 +120,13 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (state === 'loading') return;
+
+    // Mark all fields as touched and validate
+    setTouched({ name: true, email: true, subject: true, message: true });
+    const fieldErrors = validate(form);
+    setErrors(fieldErrors);
+    if (Object.keys(fieldErrors).length > 0) return; // stop — show inline errors
+
     setState('loading');
     try {
       const res = await fetch('/api/contact', {
@@ -79,6 +137,8 @@ export default function ContactForm() {
       if (res.ok) {
         setState('success');
         setForm(EMPTY_FORM);
+        setErrors({});
+        setTouched({});
         showToast('success');
       } else {
         setState('error');
@@ -90,15 +150,20 @@ export default function ContactForm() {
     }
   };
 
+  const getBorderColor = (field: keyof typeof EMPTY_FORM) => {
+    if (errors[field]) return '#ef4444';
+    if (touched[field] && form[field]) return 'var(--accent)';
+    return 'var(--border)';
+  };
+
   const fields = [
-    { name: 'name', label: 'Your Name', type: 'text', required: true },
-    { name: 'email', label: 'Email Address', type: 'email', required: true },
-    { name: 'subject', label: 'Subject', type: 'text', required: true },
+    { name: 'name' as const, label: 'Your Name', type: 'text' },
+    { name: 'email' as const, label: 'Email Address', type: 'email' },
+    { name: 'subject' as const, label: 'Subject', type: 'text' },
   ];
 
   return (
     <>
-      {/* Toast notification */}
       <AnimatePresence>
         {toast && <Toast key={toast} state={toast} onClose={() => setToast(null)} />}
       </AnimatePresence>
@@ -142,40 +207,40 @@ export default function ContactForm() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <form onSubmit={handleSubmit} className="space-y-5" noValidate={false}>
+            <form onSubmit={handleSubmit} className="space-y-5" noValidate>
               {fields.map((field, i) => (
                 <motion.div
                   key={field.name}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.08 }}
-                  className="relative"
                 >
-                  <input
-                    type={field.type}
-                    name={field.name}
-                    id={field.name}
-                    required={field.required}
-                    value={form[field.name as keyof typeof form]}
-                    onChange={handleChange}
-                    placeholder=" "
-                    disabled={state === 'loading'}
-                    className="peer w-full px-4 pt-6 pb-2 rounded-xl text-sm font-medium outline-none transition-all duration-200 disabled:opacity-60"
-                    style={{
-                      background: 'var(--surface)',
-                      border: '1px solid var(--border)',
-                      color: 'var(--text-primary)',
-                    }}
-                    onFocus={(e) => (e.target.style.borderColor = 'var(--accent)')}
-                    onBlur={(e) => (e.target.style.borderColor = 'var(--border)')}
-                  />
-                  <label
-                    htmlFor={field.name}
-                    className="absolute left-4 top-4 text-xs font-mono transition-all duration-200 pointer-events-none peer-placeholder-shown:top-4 peer-focus:top-2 peer-focus:text-xs peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs"
-                    style={{ color: 'var(--text-tertiary)', fontSize: '0.7rem' }}
-                  >
-                    {field.label}
-                  </label>
+                  <div className="relative">
+                    <input
+                      type={field.type}
+                      name={field.name}
+                      id={field.name}
+                      value={form[field.name]}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      placeholder=" "
+                      disabled={state === 'loading'}
+                      className="peer w-full px-4 pt-6 pb-2 rounded-xl text-sm font-medium outline-none transition-all duration-200 disabled:opacity-60"
+                      style={{
+                        background: 'var(--surface)',
+                        border: `1px solid ${getBorderColor(field.name)}`,
+                        color: 'var(--text-primary)',
+                      }}
+                    />
+                    <label
+                      htmlFor={field.name}
+                      className="absolute left-4 top-4 text-xs font-mono transition-all duration-200 pointer-events-none peer-placeholder-shown:top-4 peer-focus:top-2 peer-focus:text-xs peer-[&:not(:placeholder-shown)]:top-2 peer-[&:not(:placeholder-shown)]:text-xs"
+                      style={{ color: errors[field.name] ? '#ef4444' : 'var(--text-tertiary)', fontSize: '0.7rem' }}
+                    >
+                      {field.label}
+                    </label>
+                  </div>
+                  <FieldError message={errors[field.name]} />
                 </motion.div>
               ))}
 
@@ -184,41 +249,34 @@ export default function ContactForm() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.4, delay: 0.24 }}
-                className="relative"
               >
-                <textarea
-                  name="message"
-                  id="message"
-                  required
-                  rows={5}
-                  value={form.message}
-                  onChange={handleChange}
-                  placeholder=" "
-                  disabled={state === 'loading'}
-                  className="peer w-full px-4 pt-6 pb-2 rounded-xl text-sm font-medium outline-none transition-all duration-200 resize-none disabled:opacity-60"
-                  style={{
-                    background: 'var(--surface)',
-                    border: '1px solid var(--border)',
-                    color: 'var(--text-primary)',
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = 'var(--accent)')}
-                  onBlur={(e) => (e.target.style.borderColor = 'var(--border)')}
-                />
-                <label
-                  htmlFor="message"
-                  className="absolute left-4 top-3 text-xs font-mono pointer-events-none"
-                  style={{ color: 'var(--text-tertiary)', fontSize: '0.7rem' }}
-                >
-                  Your Message
-                </label>
-              </motion.div>
-
-              {state === 'error' && (
-                <div className="flex items-center gap-2 text-sm" style={{ color: '#ef4444' }}>
-                  <XCircle size={16} />
-                  Something went wrong. Please try again or email me directly.
+                <div className="relative">
+                  <textarea
+                    name="message"
+                    id="message"
+                    rows={5}
+                    value={form.message}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder=" "
+                    disabled={state === 'loading'}
+                    className="peer w-full px-4 pt-6 pb-2 rounded-xl text-sm font-medium outline-none transition-all duration-200 resize-none disabled:opacity-60"
+                    style={{
+                      background: 'var(--surface)',
+                      border: `1px solid ${getBorderColor('message')}`,
+                      color: 'var(--text-primary)',
+                    }}
+                  />
+                  <label
+                    htmlFor="message"
+                    className="absolute left-4 top-3 text-xs font-mono pointer-events-none"
+                    style={{ color: errors.message ? '#ef4444' : 'var(--text-tertiary)', fontSize: '0.7rem' }}
+                  >
+                    Your Message
+                  </label>
                 </div>
-              )}
+                <FieldError message={errors.message} />
+              </motion.div>
 
               <Button
                 type="submit"
