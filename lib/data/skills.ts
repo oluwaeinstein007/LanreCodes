@@ -73,6 +73,8 @@ export const skillCategories: SkillCategory[] = [
       { name: 'Agile Methodologies', level: 'Expert' },
       { name: 'Team Mentorship', level: 'Expert' },
       { name: 'Technical Recruitment', level: 'Proficient' },
+      { name: 'Cross-functional Collaboration', level: 'Expert' },
+      { name: 'Stakeholder Management', level: 'Expert' },
     ],
   },
 ];
