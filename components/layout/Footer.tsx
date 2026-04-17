@@ -3,8 +3,8 @@ import { Github, Linkedin, Mail, Twitter } from 'lucide-react';
 
 const SOCIAL = [
   { icon: Github, href: 'https://github.com/oluwaeinstein007', label: 'GitHub' },
-  { icon: Linkedin, href: 'https://linkedin.com/in/sanni-lanre-686125ba', label: 'LinkedIn' },
-  { icon: Twitter, href: 'https://x.com', label: 'X / Twitter' },
+  { icon: Linkedin, href: 'https://linkedin.com/in/lanrecodes', label: 'LinkedIn' },
+  { icon: Twitter, href: 'https://x.com/lanrecodes', label: 'X / Twitter' },
   { icon: Mail, href: 'mailto:slanre26@gmail.com', label: 'Email' },
 ];
 

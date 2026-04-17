@@ -15,7 +15,7 @@ const SOCIALS = [
     icon: Linkedin,
     label: 'LinkedIn',
     handle: 'sanni-lanre',
-    href: 'https://linkedin.com/in/sanni-lanre-686125ba',
+    href: 'https://linkedin.com/in/lanrecodes',
     color: '#0077B5',
   },
   {

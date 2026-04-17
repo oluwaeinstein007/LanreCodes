@@ -35,12 +35,12 @@ export default function HomePage() {
       <ParticleBackgroundClient />
 
       {/* ── Hero ── */}
-      <section id="hero" style={{ position: 'relative', zIndex: 10 }}>
+      <section id="hero" aria-label="Introduction" style={{ position: 'relative', zIndex: 10 }}>
         <HeroSection />
       </section>
 
       {/* ── About ── */}
-      <section id="about" style={{ background: 'var(--surface)' }}>
+      <section id="about" aria-label="About Lanre Sanni" style={{ background: 'var(--surface)' }}>
         <div style={container}>
           <SectionHeading
             label="Who I am"
@@ -67,7 +67,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Work ── */}
-      <section id="work" style={{ background: 'var(--bg)' }}>
+      <section id="work" aria-label="Projects and Work" style={{ background: 'var(--bg)' }}>
         <div style={container}>
           <SectionHeading
             label="My projects"
@@ -79,7 +79,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Skills ── */}
-      <section id="skills" style={{ background: 'var(--surface)' }}>
+      <section id="skills" aria-label="Skills and Technologies" style={{ background: 'var(--surface)' }}>
         <div style={container}>
           <SectionHeading
             label="My toolbox"
@@ -106,7 +106,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Contact ── */}
-      <section id="contact" style={{ background: 'var(--bg)' }}>
+      <section id="contact" aria-label="Contact Lanre Sanni" style={{ background: 'var(--bg)' }}>
         <div style={containerNarrow}>
           <SectionHeading
             label="Get in touch"
