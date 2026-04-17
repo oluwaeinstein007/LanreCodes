@@ -20,7 +20,7 @@ export default function AboutBio() {
             src="/profile/profile.jpg"
             alt="Sanni Olanrewaju (Lanre)"
             fill
-            className="object-cover object-top"
+            className="object-cover object-center"
             sizes="(max-width: 768px) 100vw, 400px"
             priority
           />

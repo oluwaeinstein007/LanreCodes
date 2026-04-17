@@ -152,7 +152,7 @@ const personSchema = {
   ],
   sameAs: [
     'https://github.com/oluwaeinstein007',
-    'https://linkedin.com/in/sanni-lanre-686125ba',
+    'https://linkedin.com/in/lanrecodes',
     'https://x.com/lanrecodes',
   ],
   worksFor: [
