@@ -43,9 +43,9 @@ export default function AboutBio() {
           className="absolute -bottom-4 -right-4 md:-right-8 rounded-2xl px-5 py-4 shadow-xl"
           style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
         >
-          <p className="font-mono text-xs mb-1" style={{ color: 'var(--text-tertiary)' }}>Currently at</p>
-          <p className="font-display font-bold text-sm" style={{ color: 'var(--accent)' }}>Collo Africa</p>
-          <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Chief Technology Officer</p>
+          <p className="font-mono text-xs mb-1" style={{ color: 'var(--text-tertiary)' }}>Currently building</p>
+          <p className="font-display font-bold text-sm" style={{ color: 'var(--accent)' }}>Anthyx</p>
+          <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Founder & CEO</p>
         </motion.div>
       </motion.div>
 
@@ -59,10 +59,10 @@ export default function AboutBio() {
           that taught me to think in systems, reason under uncertainty, and build with precision.
           That physicist's mindset translates directly into how I architect software: principled,
           measurable, and scalable.`,
-          `Today, I lead engineering at Collo Africa (FinTech, Lagos) and Travel Avatar (California),
-          while building AI systems that push the frontier — from RAG pipelines and multi-agent
-          architectures to MCP packages published on npm. I believe technology should move people,
-          not just process data.`,
+          `Today, I'm building Anthyx — the AI-powered workspace where brands get operated — as
+          Founder & CEO, while continuing to lead engineering at Travel Avatar (California) as CTO.
+          I push the frontier of AI systems, from multi-agent pipelines and RAG architectures to MCP
+          packages published on npm. I believe technology should move people, not just process data.`,
         ].map((para, i) => (
           <motion.p
             key={i}

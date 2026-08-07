@@ -11,17 +11,17 @@ export type TimelineEntry = {
 
 export const timeline: TimelineEntry[] = [
   {
-    role: 'Chief Technology Officer',
-    company: 'Collo Africa',
+    role: 'Founder & CEO',
+    company: 'Anthyx',
     location: 'Lagos, Nigeria',
-    period: 'April 2025 – Present',
-    industry: 'FinTech',
+    period: 'April 2026 – Present',
+    industry: 'AI / Marketing Technology',
     current: true,
-    stack: ['Laravel', 'Next.js', 'Flutter', 'AWS', 'MySQL', 'Redis', 'Sentry'],
+    stack: ['Next.js', 'Express', 'PostgreSQL', 'Gemini', 'Claude', 'Qdrant', 'BullMQ'],
     bullets: [
-      'Architected the 2025 Private MGR product stabilization and the 2026 Engineering Strategic Plan, overseeing development of Public MGR, Savings Plan, and Loan modules.',
-      'Direct the engineering team in building high-concurrency fintech solutions using Next.js, Laravel, and AWS.',
-      'Architected cloud infrastructure scaling from 2K to 40K+ users with Redis caching and EC2 auto-scaling.',
+      'Founded Anthyx, the AI-powered workspace where brands get operated — unifying strategy, execution, and intelligence for teams managing one or more brands.',
+      'Architected a multi-agent AI pipeline (Strategist → Copywriter → Reviewer → Publisher) using Gemini and Claude to enforce consistent brand voice and adapt content natively across 18+ platforms.',
+      'Replaced fragmented marketing stacks (Buffer, HubSpot, Mailchimp, Notion) with one workspace covering brand memory, campaign orchestration, competitive intelligence, and analytics — driving product, engineering, and go-to-market as a solo full-stack founder.',
     ],
   },
   {
@@ -36,6 +36,19 @@ export const timeline: TimelineEntry[] = [
       'Implemented industry-standard engineering practices improving development velocity and code quality.',
       'Crafted project roadmaps and aligned development cycles with business goals to ensure streamlined delivery.',
       'Fostered cross-functional team collaboration, driving innovation and on-time product releases.',
+    ],
+  },
+  {
+    role: 'Chief Technology Officer',
+    company: 'Collo Africa',
+    location: 'Lagos, Nigeria',
+    period: 'April 2025 – August 2026',
+    industry: 'FinTech',
+    stack: ['Laravel', 'Next.js', 'Flutter', 'AWS', 'MySQL', 'Redis', 'Sentry'],
+    bullets: [
+      'Architected the 2025 Private MGR product stabilization and the 2026 Engineering Strategic Plan, overseeing development of Public MGR, Savings Plan, and Loan modules.',
+      'Directed the engineering team in building high-concurrency fintech solutions using Next.js, Laravel, and AWS.',
+      'Architected cloud infrastructure scaling from 2K to 40K+ users with Redis caching and EC2 auto-scaling.',
     ],
   },
   {

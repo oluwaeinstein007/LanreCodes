@@ -70,14 +70,16 @@ function Globe() {
 
   return (
     <group ref={groupRef}>
-      {skillData.map(({ name, position, opacity }) => (
-        <SkillTag key={name} text={name} position={position} opacity={opacity} />
-      ))}
-      {/* Wireframe sphere */}
+      {/* Wireframe sphere renders immediately, independent of text glyph loading */}
       <mesh>
         <sphereGeometry args={[2.4, 20, 20]} />
-        <meshBasicMaterial color="white" wireframe transparent opacity={0.04} />
+        <meshBasicMaterial color="white" wireframe transparent opacity={0.08} />
       </mesh>
+      <Suspense fallback={null}>
+        {skillData.map(({ name, position, opacity }) => (
+          <SkillTag key={name} text={name} position={position} opacity={opacity} />
+        ))}
+      </Suspense>
     </group>
   );
 }

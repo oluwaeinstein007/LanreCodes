@@ -10,6 +10,15 @@ export type SpeakingEvent = {
 
 export const speakingEvents: SpeakingEvent[] = [
   {
+    event: 'The Navon Klub — 2nd Cohort',
+    organizer: 'The Navon Klub',
+    topic: 'Problem Selection (Pain vs Vibes)',
+    date: '27 June 2026',
+    platform: 'Google Meet',
+    role: 'Facilitator',
+    image: '/speaking/navonklub.jpg',
+  },
+  {
     event: 'PennyWise',
     organizer: 'Pennyvest',
     topic: 'Is Hardwork Enough to Become Wealthy Today?',

@@ -15,6 +15,20 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    id: 'anthyx',
+    title: 'Anthyx',
+    subtitle: 'The Workspace Where Brands Get Operated',
+    description:
+      'A unified, AI-powered workspace that replaces fragmented marketing stacks — Buffer, HubSpot, Mailchimp, Notion — with one home for brand strategy, execution, and intelligence. A multi-agent pipeline (Strategist → Copywriter → Reviewer → Publisher) enforces consistent brand voice and adapts content natively across 18+ platforms, alongside competitive intelligence, campaign orchestration, and analytics. Founded and built as a solo full-stack founder.',
+    tags: ['Next.js', 'Express', 'PostgreSQL', 'Gemini', 'Claude', 'Qdrant', 'Multi-Agent'],
+    category: 'ai',
+    image: '/projects/anthyx.svg',
+    liveUrl: 'https://useanthyx.com',
+    featured: true,
+    span: 'wide',
+    date: 'April 2026 – Present',
+  },
+  {
     id: 'permitoai',
     title: 'PermitoAI',
     subtitle: 'AI Safety and Compliance Agent',
@@ -24,7 +38,6 @@ export const projects: Project[] = [
     category: 'ai',
     image: '/projects/permitoai.svg',
     githubUrl: 'https://github.com/oluwaeinstein007/PermtoAI',
-    featured: true,
     span: 'wide',
     date: 'February 2026',
   },

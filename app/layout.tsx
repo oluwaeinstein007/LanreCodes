@@ -158,8 +158,8 @@ const personSchema = {
   worksFor: [
     {
       '@type': 'Organization',
-      name: 'Collo Africa',
-      url: 'https://colloafrica.com',
+      name: 'Anthyx',
+      url: 'https://useanthyx.com',
     },
     {
       '@type': 'Organization',

@@ -117,7 +117,7 @@ export default function HeroSection() {
             style={{ color: 'var(--text-tertiary)' }}
           >
             Strategic CTO and AI Engineer with 6+ years building scalable products across fintech,
-            travel, and emerging technology. Currently scaling Collo Africa from 2K → 40K+ users.
+            travel, and emerging technology. Now building Anthyx as Founder & CEO.
           </motion.p>
 
           {/* CTAs */}
@@ -148,7 +148,7 @@ export default function HeroSection() {
             {[
               { value: '6+', label: 'Years Exp.' },
               { value: '40K+', label: 'Users Scaled' },
-              { value: '2', label: 'Current CTOs' },
+              { value: '2', label: 'Companies Led' },
               { value: '4+', label: 'npm Packages' },
             ].map((s) => (
               <div key={s.label}>
@@ -189,7 +189,7 @@ export default function HeroSection() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 0.5 }}
         onClick={() => scrollTo('about')}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2"
         style={{ color: 'var(--text-tertiary)', background: 'none', border: 'none', cursor: 'pointer' }}
       >
         <span className="font-mono text-xs tracking-widest">SCROLL</span>
